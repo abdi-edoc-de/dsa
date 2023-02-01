@@ -1,0 +1,16 @@
+class Solution:
+    def minimumRecolors(self, blocks: str, k: int) -> int:
+        left= 0
+        best = 0
+        for i in range(k):
+            if blocks[i] == 'B':
+                best += 1
+        win = best 
+        for i in range(k, len(blocks)):
+            if blocks[i] == 'B':
+                win += 1
+            if blocks[left] == 'B':
+                win -= 1
+            left += 1
+            best = max(win, best)
+        return 0 if best > k else k-best
