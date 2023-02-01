@@ -1,0 +1,9 @@
+class Solution:
+    def bestTeamScore(self, scores: List[int], ages: List[int]) -> int:
+        arr = [(scores[i], ages[i]) for i in range(len(ages))]
+        arr.sort()
+        dp = [0] * (max(ages)+1)
+        for score , age in arr:
+            dp[age] = score + max(dp[:age+1])
+        return max(dp)
+
