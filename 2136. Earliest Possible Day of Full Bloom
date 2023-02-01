@@ -1,0 +1,13 @@
+class Solution:
+    def earliestFullBloom(self, plantTime: List[int], growTime: List[int]) -> int:
+        latest_seed_bloom = 0
+        total_plant_time= 0
+        for growt, plantt in sorted(zip(growTime, plantTime), reverse=True):
+            time_to_bloom_seed_i =  plantt + growt
+            day_bloom_seed_i = total_plant_time + time_to_bloom_seed_i
+            total_plant_time += plantt
+
+            if day_bloom_seed_i > latest_seed_bloom:
+                latest_seed_bloom = day_bloom_seed_i
+
+        return latest_seed_bloom
