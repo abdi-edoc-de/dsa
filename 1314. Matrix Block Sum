@@ -1,0 +1,30 @@
+class Solution:
+    def matrixBlockSum(self, mat: List[List[int]], k: int) -> List[List[int]]:
+        m, n ,result= len(mat), len(mat[0]), []
+        def isValid(r,c):
+            return 0 <= r < m and 0 <= c < n
+        for r in range(m):
+            for c in range(n):
+                val = mat[r][c]
+                if isValid(r,c-1):
+                    val += mat[r][c-1]
+                if isValid(r-1, c):
+                    val += mat[r-1][c]
+                if isValid(r-1,c-1):
+                    val -= mat[r-1][c-1]
+                mat[r][c] = val
+        for r in range(m):
+            arr = []
+            for c in range(n):
+                sR , sC , eR, eC = max(0,r-k), max(0, c-k), min(m-1,r+k), min(n-1, c+k)
+                val = mat[eR][eC] 
+                if isValid(sR-1, eC):
+                    val -= mat[sR-1][eC]
+                if isValid(eR, sC-1):
+                    val -= mat[eR][sC-1]
+                if isValid(sR-1, sC-1):
+                    val += mat[sR-1][sC-1]
+                arr.append(val)
+            result.append(arr)
+        
+        return result
