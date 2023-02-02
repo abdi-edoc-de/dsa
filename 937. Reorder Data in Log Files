@@ -1,0 +1,21 @@
+class Solution:
+    def reorderLogFiles(self, logs: List[str]) -> List[str]:
+        let , digt = [],[]
+        lett = defaultdict(list)
+        for index, log in enumerate(logs):
+            l = log.split(' ')
+            if not l[1].isnumeric():
+                tu = tuple(l[1:])
+                heappush(lett[tu],(l[0], index) )
+                let.append(tu)
+            else:
+                digt.append(index)
+        let.sort()
+        result = []
+        for key in let:
+            _, ind = heappop(lett[key])
+            result.append(logs[ind])
+        for ind in digt:
+            result.append(logs[ind])
+        return result 
+        
