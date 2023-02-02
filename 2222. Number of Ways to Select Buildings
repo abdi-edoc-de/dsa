@@ -1,0 +1,12 @@
+class Solution:
+    def numberOfWays(self, s: str) -> int:
+        dic, result = defaultdict(int), 0
+        for st in s:
+            dic[st] += 1
+            if st == '0':
+                dic['10'] += dic['1']
+                result += dic['01']
+            else:
+                dic['01'] += dic['0']
+                result += dic['10']
+        return result
