@@ -1,0 +1,15 @@
+class Solution:
+    def minimumOperations(self, nums: List[int]) -> int:
+        arr, ops = [], 0
+        for num in nums:
+            if num != 0:
+                arr.append(num)
+        nums, arr = arr, []
+        while nums:
+            minn = min(nums)
+            for num in nums:
+                if num-minn != 0:
+                    arr.append(num-minn)
+            ops += 1
+            nums, arr = arr, []
+        return ops
