@@ -11,5 +11,4 @@ class Solution:
         result = 0
         for num in nums:
             result = max(result, dfs(num))
-        print(result)
         return -1 if result < 2 else result 
