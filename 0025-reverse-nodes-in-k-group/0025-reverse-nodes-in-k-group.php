@@ -1,12 +1,7 @@
 
-
 class Solution {
 
-    /**
-     * @param ListNode $head
-     * @param Integer $k
-     * @return ListNode
-     */
+  
     function reverseKGroup($head, $k) {
         if ($head === null || $k === 1) {
             return $head;
