@@ -1,71 +1,43 @@
-
-class Solution {
+class Solution { 
     function reverseKGroup($head, $k) {
         if ($head === null || $k === 1) {
             return $head;
         }
 
-        $dummy = new ListNode(0);
-        $dummy->next = $head;
-        $prevGroupEnd = $dummy;
+        $dummy = new ListNode(0, $head); // Sentinel node
+        $groupPrev = $dummy;
 
         while ($head !== null) {
             $tail = $head;
-            // Find the k-th node in the group
-            for ($i = 0; $i < $k - 1; $i++) {
+            for ($i = 0; $i < $k - 1 && $tail !== null; $i++) {
                 $tail = $tail->next;
-                if ($tail === null) {
-                    return $dummy->next;  // Less than k nodes remaining, so no more reversals
-                }
             }
 
-            $nextGroupStart = $tail->next;
-            // Reverse the group
-            list($newHead, $newTail) = $this->reverse($head, $tail);
-            // Connect the reversed group with the rest of the list
-            $prevGroupEnd->next = $newHead;
-            $newTail->next = $nextGroupStart;
+            if ($tail === null) {
+                break; // Not enough nodes for a group
+            }
 
-            $prevGroupEnd = $newTail;
-            $head = $nextGroupStart;
+            $nextGroupHead = $tail->next;
+            $this->reverseGroup($head, $tail); // In-place reversal
+
+            $groupPrev->next = $tail;
+            $head->next = $nextGroupHead;
+            $groupPrev = $head;
+            $head = $nextGroupHead;
         }
 
         return $dummy->next;
     }
 
-    private function reverse($start, $end) {
-        $prev = $end->next;
-        $current = $start;
-
-        while ($prev !== $end) {
-            $temp = $current->next;
+    private function reverseGroup(&$head, &$tail) {
+        $prev = null;
+        $current = $head;
+        while ($current !== $tail) {
+            $next = $current->next;
             $current->next = $prev;
             $prev = $current;
-            $current = $temp;
+            $current = $next;
         }
-
-        return array($end, $start);  // new head, new tail
+        $tail->next = $prev;
     }
 }
-
-// Helper function to print the linked list
-function printLinkedList($head) {
-    $current = $head;
-    while ($current !== null) {
-        echo $current->val . ' ';
-        $current = $current->next;
-    }
-    echo "\\n";
-}
-
-// Creating and testing the linked list
-$head = new ListNode(1);
-$current = $head;
-foreach ([2, 3, 4, 5] as $value) {
-    $current->next = new ListNode($value);
-    $current = $current->next;
-}
-
-$solution = new Solution();
-$reversedHead = $solution->reverseKGroup($head, 2);
-printLinkedList($reversedHead);
