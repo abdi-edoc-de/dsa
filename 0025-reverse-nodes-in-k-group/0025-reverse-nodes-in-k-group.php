@@ -12,35 +12,37 @@ class Solution {
             return $head;
         }
 
-        $dummy = new ListNode(0);
-        $dummy->next = $head;
-
-        $current = $dummy;
-        $prev = $dummy;
-        $next = null;
-        $length = 0;
-
-        // Calculate length of the list
-        while ($current->next !== null) {
-            $length++;
+        // Store nodes in an array
+        $nodes = [];
+        $current = $head;
+        while ($current !== null) {
+            $nodes[] = $current;
             $current = $current->next;
         }
 
-        while ($length >= $k) {
-            $current = $prev->next;
-            $next = $current->next;
-
-            for ($i = 1; $i < $k; $i++) {
-                $current->next = $next->next;
-                $next->next = $prev->next;
-                $prev->next = $next;
-                $next = $current->next;
+        // Reverse groups of k nodes in the array
+        for ($i = 0; $i < count($nodes); $i += $k) {
+            if ($i + $k <= count($nodes)) {
+                $this->reverseArray($nodes, $i, $i + $k - 1);
             }
-
-            $prev = $current;
-            $length -= $k;
         }
 
-        return $dummy->next;
+        // Reconstruct the linked list from the nodes array
+        for ($i = 0; $i < count($nodes) - 1; $i++) {
+            $nodes[$i]->next = $nodes[$i + 1];
+        }
+        $nodes[count($nodes) - 1]->next = null;
+
+        return $nodes[0];
+    }
+
+    private function reverseArray(&$array, $start, $end) {
+        while ($start < $end) {
+            $temp = $array[$start];
+            $array[$start] = $array[$end];
+            $array[$end] = $temp;
+            $start++;
+            $end--;
+        }
     }
 }
