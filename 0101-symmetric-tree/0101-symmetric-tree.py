@@ -1,28 +1,26 @@
 class Solution:
-    def isSymmetric(self, root: TreeNode) -> bool:
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
         if not root:
             return True
 
-        queue = deque()
-        queue.append(root)
-        queue.append(root)
+        queue = collections.deque()
+        queue.append(root.left)
+        queue.append(root.right)
 
         while queue:
-            r1 = queue.popleft()
-            r2 = queue.popleft()
+            t1 = queue.popleft()
+            t2 = queue.popleft()
 
-            if not r1 and not r2:
+            if not t1 and not t2:
                 continue
-
-            if not r1 or not r2:
+            if not t1 or not t2:
+                return False
+            if t1.val != t2.val:
                 return False
 
-            if r1.val != r2.val:
-                return False
-
-            queue.append(r1.left)
-            queue.append(r2.right)
-            queue.append(r1.right)
-            queue.append(r2.left)
+            queue.append(t1.left)
+            queue.append(t2.right)
+            queue.append(t1.right)
+            queue.append(t2.left)
 
         return True
