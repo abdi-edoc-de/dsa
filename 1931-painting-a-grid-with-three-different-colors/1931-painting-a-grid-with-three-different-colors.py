@@ -20,7 +20,7 @@ class Solution:
             self.generate_mask(m, 0, msk_map[msk], msk, 0)
         ans = 0
         for cur_msk in msk_map[msk]:
-            ans += self.func(m, n, idx + 1, cur_msk, dp, msk_map) * 1
+            ans += self.func(m, n, idx + 1, cur_msk, dp, msk_map)
             ans %= self.mod
         dp[idx][msk] = ans
         return ans
@@ -29,8 +29,7 @@ class Solution:
         dp = [[-1 for _ in range(1 << (2 * m))] for _ in range(n)]
         msk_map = {}
         return self.func(m, n, 0, 0, dp, msk_map)
-
 # Example usage
-# sol = Solution()
-# result = sol.colorTheGrid(3, 3)  # Example arguments
-# print(result)
+sol = Solution()
+result = sol.colorTheGrid(3, 3)  # Example arguments
+print(result)
