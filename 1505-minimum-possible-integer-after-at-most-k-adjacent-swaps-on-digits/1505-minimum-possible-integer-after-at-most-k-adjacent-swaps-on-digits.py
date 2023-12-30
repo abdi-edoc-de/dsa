@@ -34,7 +34,7 @@ class Solution:
             for d in range(10):
                 if qs[d]:
                     pos = qs[d][0]
-                    shifted = tree.query(pos - 1)
+                    shifted = tree.query(pos)
                     if pos - shifted <= k:
                         k -= pos - shifted
                         tree.update(pos, 1)
