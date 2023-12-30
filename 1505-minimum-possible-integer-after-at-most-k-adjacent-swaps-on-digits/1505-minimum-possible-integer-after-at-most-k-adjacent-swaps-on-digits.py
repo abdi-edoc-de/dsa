@@ -10,7 +10,6 @@ class BIT:
             i += i & -i
 
     def query(self, i):
-        i += 1
         total = 0
         while i > 0:
             total += self.nodes[i]
