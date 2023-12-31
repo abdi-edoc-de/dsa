@@ -12,14 +12,14 @@ class Solution:
     #     return False
 
     def containsNearbyAlmostDuplicate(self, nums, indexDiff, valueDiff):
-        window = SortedList()
+        sorted_list = SortedList()
         for i in range(len(nums)):
             if i > indexDiff:
-                window.remove(nums[i - indexDiff - 1])
-            pos = window.bisect_left(nums[i] - valueDiff)
-            if pos != len(window) and window[pos] - nums[i] <= valueDiff:
+                sorted_list.remove(nums[i - indexDiff - 1])
+            pos = sorted_list.bisect_left(nums[i] - valueDiff)
+            if pos != len(sorted_list) and sorted_list[pos] - nums[i] <= valueDiff:
                 return True
-            window.add(nums[i])
+            sorted_list.add(nums[i])
         return False
 # # Example usage
 # sol = Solution()
