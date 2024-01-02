@@ -1,4 +1,4 @@
-class Solution(object):
+class Solution:
     def values(self, s):
         if s in self.values_cache:
             return self.values_cache[s]
