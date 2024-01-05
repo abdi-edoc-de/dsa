@@ -1,27 +1,42 @@
-
 class Solution:
-    def solveSudoku(self, board: List[List[str]]) -> None:
+    # def solveSudoku(self, board: List[List[str]]) -> None:
         """
         Do not return anything, modify board in-place instead.
         """
-        def is_valid(row, col, num):
-            # Check if 'num' is not in the current row, column, and subgrid
-            for i in range(9):
-                if board[row][i] == num or board[i][col] == num or board[3 * (row // 3) + i // 3][3 * (col // 3) + i % 3] == num:
-                    return False
-            return True
+        def solveSudoku(self, grid: List[List[str]]) -> None:
+            def is_valid(board, row, col, num):
+                # check the number in the row
+                for x in range(9):
+                    if board[row][x] == num:
+                        return False
 
-        def solve():
-            for i in range(9):
-                for j in range(9):
-                    if board[i][j] == '.':
-                        for num in map(str, range(1, 10)):
-                            if is_valid(i, j, num):
-                                board[i][j] = num
-                                if solve():
-                                    return True
-                                board[i][j] = '.'  # Backtrack if the current digit doesn't lead to a solution
-                        return False  # If no valid digit is found, backtrack to the previous state
-            return True  # If all cells are filled, the Sudoku is solved
+                # check the number in the column
+                for x in range(9):
+                    if board[x][col] == num:
+                        return False
 
-        solve()
+                # check the number in the box
+                start_row, start_col = row - row%3, col - col%3
+                for i in range(3):
+                    for j in range(3):
+                        if board[i+start_row][j+start_col] == num:
+                            return False
+                return True
+
+            
+            def solve(board):
+                for i in range(9):
+                    for j in range(9):
+                        if board[i][j] == ".":
+                            for num in "123456789":
+                                if is_valid(board, i, j, num):
+                                    board[i][j] = num  # attempt to place num in cell
+
+                                    if solve(board):  # proceed to solve the rest
+                                        return True
+
+                                    board[i][j] = "."  # undo the current cell for backtracking
+                            return False  # trigger backtracking
+                return True
+
+            solve(grid)
